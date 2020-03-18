@@ -1,4 +1,4 @@
-const express = require('express');
+import express from "express";
 const app = express();
 const port = 3000;
 const hostname = 'localhost';
@@ -8,4 +8,5 @@ app.get('/alo', (req, res) => {
 });
 
 app.listen(port, hostname, () => console.log(`Server start ${hostname}:${port}/`));
+
 
