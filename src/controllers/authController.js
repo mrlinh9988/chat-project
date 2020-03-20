@@ -1,13 +1,12 @@
 import { validationResult } from "express-validator";
 import { auth } from "../services/index";
-import { transSuccess } from "../../lang/vi"; 
 
 let getLoginRegister = (req, res) => {
-  return res.render('auth/master', {
-    errors: req.flash('errors'),
-    success: req.flash('success')
+  return res.render("auth/master", {
+    errors: req.flash("errors"),
+    success: req.flash("success")
   });
-}
+};
 
 let postRegister = async (req, res) => {
   /*
@@ -28,24 +27,45 @@ let postRegister = async (req, res) => {
 
     errors.forEach(element => {
       errorArr.push(element.msg);
-    })
-    req.flash('errors', errorArr);
-    return res.redirect('/login-register');
+    });
+    req.flash("errors", errorArr);
+    return res.redirect("/login-register");
   }
 
   try {
-    const createUserSuccess = await auth.register(req.body.email, req.body.gender, req.body.password);
+    const createUserSuccess = await auth.register(
+      req.body.email,
+      req.body.gender,
+      req.body.password,
+      req.protocol,
+      req.get("host")
+    );
     successArr.push(createUserSuccess);
-    req.flash('success', successArr);
-    return res.redirect('/login-register');
-
+    req.flash("success", successArr);
+    return res.redirect("/login-register");
   } catch (error) {
-
     errorArr.push(error);
-    req.flash('errors', errorArr);
-    return res.redirect('/login-register');
+    req.flash("errors", errorArr);
+    return res.redirect("/login-register");
   }
-}
+};
 
-module.exports = { getLoginRegister, postRegister };
+const verifyAccount = async (req, res) => {
+  let errorArr = [];
+  let successArr = [];
 
+  try {
+    let verifySuccess = await auth.verifyAccount(req.params.verifyToken);
+    successArr.push(verifySuccess);
+    req.flash("success", successArr);
+    return res.redirect("/login-register");
+    
+  } catch (error) {
+    console.log(error);
+    errorArr.push(error);
+    req.flash("errors", errorArr);
+    return res.redirect("/login-register");
+  }
+};
+
+module.exports = { getLoginRegister, postRegister, verifyAccount };

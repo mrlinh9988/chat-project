@@ -9,7 +9,8 @@ let connectDB = () => {
 
   return mongoose.connect(URI, {
     useNewUrlParser: true,
-    useUnifiedTopology: true
+    useUnifiedTopology: true,
+    useFindAndModify: false
   });
 }
 
