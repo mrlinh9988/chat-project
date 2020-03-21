@@ -12,14 +12,20 @@ export const transErrors = {
     "Tài khoản này đã bị xóa khỏi hệ thống. Nếu thông tin này là hiểu nhầm, vui lòng liên hệ với bộ phận hỗ trợ của chúng tôi",
   account_not_active:
     "Tài khoản đã được đăng ký nhưng chưa được active. Vui lòng kiểm tra email của bạn",
-  token_undefined: 'Token không tồn tại. Tài khoản này đã được kích hoạt'
+  token_undefined: "Token không tồn tại. Tài khoản này đã được kích hoạt",
+  login_failed: "Sai tài khoản hoặc mật khẩu",
+  server_error: 'Lỗi server. Vui lòng thông báo với quản trị viên'
 };
 
 export const transSuccess = {
   userCreated(userEmail) {
     return `Tài khoản <strong>${userEmail}<strong> đã được tạo. Vui lòng kiểm tra email của bạn để active tài khoản`;
-  }, 
-  account_actived: 'Kích hoạt tài khoản thành công, bạn đã có thể đăng nhập vào ứng dụng'
+  },
+  account_actived:
+    "Kích hoạt tài khoản thành công, bạn đã có thể đăng nhập vào ứng dụng",
+  loginSuccess(username) {
+    return `Chào mừng ${username} đến với ứng dụng Linh Chat`;
+  }
 };
 
 export const transMail = {
@@ -31,9 +37,7 @@ export const transMail = {
       <a href="${linkVerify}" target="blank">${linkVerify}</a>
     `;
   },
-  send_failed: 'Có lỗi trong quá trình gửi email' 
+  send_failed: "Có lỗi trong quá trình gửi email"
 };
 
-
 // export
-
