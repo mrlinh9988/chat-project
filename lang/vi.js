@@ -25,7 +25,8 @@ export const transSuccess = {
     "Kích hoạt tài khoản thành công, bạn đã có thể đăng nhập vào ứng dụng",
   loginSuccess(username) {
     return `Chào mừng ${username} đến với ứng dụng Linh Chat`;
-  }
+  },
+  logout_success: 'Đăng xuất tài khoản thành công'
 };
 
 export const transMail = {
