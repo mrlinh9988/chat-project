@@ -66,6 +66,8 @@ let initPassportLocal = () => {
     done(null, user._id);
   });
 
+  // Được gọi bởi hàm passport.session()
+  // sau đó sẽ truyền user info (khi đăng nhập thành công) vào biến req.user
   passport.deserializeUser(async (id, done) => {
     UserModel.findUserById(id)
       .then(user => {
