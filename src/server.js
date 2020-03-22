@@ -6,33 +6,70 @@ import connectFlash from "connect-flash";
 import ConfigSession from "./config/session";
 import passport from "passport";
 
+import pem from "pem";
+import https from "https";
+
 // Init app
 const app = express();
 
-// Connect to DB    
-ConnectDB();
+pem.createCertificate({ days: 1, selfSigned: true }, function(err, keys) {
+  if (err) {
+    throw err;
+  }
 
-// Config session
-ConfigSession(app);
+  // Connect to DB
+  ConnectDB();
 
-// View engine
-ConfigViewEngine(app);
+  // Config session
+  ConfigSession(app);
 
-// Enable post data for request
-app.use(express.urlencoded({ extended: true }));
+  // View engine
+  ConfigViewEngine(app);
 
-// Enable flash message
-app.use(connectFlash()); 
+  // Enable post data for request
+  app.use(express.urlencoded({ extended: true }));
 
-// Config passport
-app.use(passport.initialize());
-app.use(passport.session());
+  // Enable flash message
+  app.use(connectFlash());
 
-// Init all routes
-initRoutes(app);  
+  // Config passport
+  app.use(passport.initialize());
+  app.use(passport.session());
 
+  // Init all routes
+  initRoutes(app);
 
+  https
+    .createServer({ key: keys.serviceKey, cert: keys.certificate }, app)
+    .listen(process.env.APP_PORT, process.env.APP_HOST, () =>
+      console.log(
+        `Server start ${process.env.APP_HOST}:${process.env.APP_PORT}/`
+      )
+    );
+});
 
-app.listen(process.env.APP_PORT, process.env.APP_HOST, () => console.log(`Server start ${process.env.APP_HOST}:${process.env.APP_PORT}/`));
+// // Connect to DB
+// ConnectDB();
 
+// // Config session
+// ConfigSession(app);
 
+// // View engine
+// ConfigViewEngine(app);
+
+// // Enable post data for request
+// app.use(express.urlencoded({ extended: true }));
+
+// // Enable flash message
+// app.use(connectFlash());
+
+// // Config passport
+// app.use(passport.initialize());
+// app.use(passport.session());
+
+// // Init all routes
+// initRoutes(app);
+
+// app.listen(process.env.APP_PORT, process.env.APP_HOST, () =>
+//   console.log(`Server start ${process.env.APP_HOST}:${process.env.APP_PORT}/`)
+// );
