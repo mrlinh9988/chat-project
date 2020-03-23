@@ -14,7 +14,9 @@ export const transErrors = {
     "Tài khoản đã được đăng ký nhưng chưa được active. Vui lòng kiểm tra email của bạn",
   token_undefined: "Token không tồn tại. Tài khoản này đã được kích hoạt",
   login_failed: "Sai tài khoản hoặc mật khẩu",
-  server_error: 'Lỗi server. Vui lòng thông báo với quản trị viên'
+  server_error: 'Lỗi server. Vui lòng thông báo với quản trị viên',
+  avatar_type: 'Kiểu file không hợp lệ. Chỉ chấp nhận định dạng png, jpg hoặc jpeg',
+  avatar_size: 'Kích thước ảnh tối đa là 5MB'
 };
 
 export const transSuccess = {
@@ -26,7 +28,8 @@ export const transSuccess = {
   loginSuccess(username) {
     return `Chào mừng ${username} đến với ứng dụng Linh Chat`;
   },
-  logout_success: 'Đăng xuất tài khoản thành công'
+  logout_success: 'Đăng xuất tài khoản thành công',
+  avatar_updated: 'Cập nhật ảnh đại diện thành công'
 };
 
 export const transMail = {
