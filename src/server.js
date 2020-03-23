@@ -6,70 +6,71 @@ import connectFlash from "connect-flash";
 import ConfigSession from "./config/session";
 import passport from "passport";
 
-import pem from "pem";
-import https from "https";
-
 // Init app
 const app = express();
 
-pem.createCertificate({ days: 1, selfSigned: true }, function(err, keys) {
-  if (err) {
-    throw err;
-  }
+// Connect to DB
+ConnectDB();
 
-  // Connect to DB
-  ConnectDB();
+// Config session
+ConfigSession(app);
 
-  // Config session
-  ConfigSession(app);
+// View engine
+ConfigViewEngine(app);
 
-  // View engine
-  ConfigViewEngine(app);
+// Enable post data for request
+app.use(express.urlencoded({ extended: true }));
 
-  // Enable post data for request
-  app.use(express.urlencoded({ extended: true }));
+// Enable flash message
+app.use(connectFlash());
 
-  // Enable flash message
-  app.use(connectFlash());
+// Config passport
+app.use(passport.initialize());
+app.use(passport.session());
 
-  // Config passport
-  app.use(passport.initialize());
-  app.use(passport.session());
+// Init all routes
+initRoutes(app);
 
-  // Init all routes
-  initRoutes(app);
+app.listen(process.env.APP_PORT, process.env.APP_HOST, () =>
+  console.log(`Server start ${process.env.APP_HOST}:${process.env.APP_PORT}/`)
+);
 
-  https
-    .createServer({ key: keys.serviceKey, cert: keys.certificate }, app)
-    .listen(process.env.APP_PORT, process.env.APP_HOST, () =>
-      console.log(
-        `Server start ${process.env.APP_HOST}:${process.env.APP_PORT}/`
-      )
-    );
-});
 
-// // Connect to DB
-// ConnectDB();
+// import pem from "pem";
+// import https from "https";
 
-// // Config session
-// ConfigSession(app);
+// pem.createCertificate({ days: 1, selfSigned: true }, function(err, keys) {
+//   if (err) {
+//     throw err;
+//   }
 
-// // View engine
-// ConfigViewEngine(app);
+//   // Connect to DB
+//   ConnectDB();
 
-// // Enable post data for request
-// app.use(express.urlencoded({ extended: true }));
+//   // Config session
+//   ConfigSession(app);
 
-// // Enable flash message
-// app.use(connectFlash());
+//   // View engine
+//   ConfigViewEngine(app);
 
-// // Config passport
-// app.use(passport.initialize());
-// app.use(passport.session());
+//   // Enable post data for request
+//   app.use(express.urlencoded({ extended: true }));
 
-// // Init all routes
-// initRoutes(app);
+//   // Enable flash message
+//   app.use(connectFlash());
 
-// app.listen(process.env.APP_PORT, process.env.APP_HOST, () =>
-//   console.log(`Server start ${process.env.APP_HOST}:${process.env.APP_PORT}/`)
-// );
+//   // Config passport
+//   app.use(passport.initialize());
+//   app.use(passport.session());
+
+//   // Init all routes
+//   initRoutes(app);
+
+//   https
+//     .createServer({ key: keys.serviceKey, cert: keys.certificate }, app)
+//     .listen(process.env.APP_PORT, process.env.APP_HOST, () =>
+//       console.log(
+//         `Server start ${process.env.APP_HOST}:${process.env.APP_PORT}/`
+//       )
+//     );
+// });
