@@ -44,7 +44,7 @@ function updateUserInfo() {
       fileReader.readAsDataURL(fileData);
 
       let formData = new FormData();
-      formData.append("avatar", fileData); // input name="avatar"
+      formData.append("avatar", fileData); // input name="avatar" (thẻ input chọn file)
 
       userAvatar = formData;
     } else {
@@ -102,10 +102,29 @@ $(document).ready(function() {
       processData: false,
       data: userAvatar,
       success: function(result) {
+        $(".user-modal-alert-success")
+          .find("span")
+          .text(result.message);
+        $(".user-modal-alert-success").css("display", "block");
 
+        // Update varbar avatar
+        $("#navbar-avatar").attr("src", result.image);
+
+        // update origin avatar
+        originAvatarSrc = result.image;
+
+        // reset all
+        $("#input-btn-cancel-update-user").click();
       },
-      error: function (error){
+      error: function(error) {
+        console.log(error);
+        $(".user-modal-alert-error")
+          .find("span")
+          .text(error.responseText);
+        $(".user-modal-alert-error").css("display", "block");
 
+        // reset all
+        $("#input-btn-cancel-update-user").click(); // Tự động click khi có lỗi xảy ra khi uplaod avatar
       }
     });
 
@@ -117,6 +136,7 @@ $(document).ready(function() {
   $("#input-btn-cancel-update-user").bind("click", function() {
     userAvatar = null;
     userInfo = {};
+    $('#input-change-avatar').val(null);
     // Khi click vào nút Hủy bỏ sẽ cho src của img về giá trị trước đó
     originAvatarSrc = $("#user-modal-avatar").attr("src", originAvatarSrc);
   });
