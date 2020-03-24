@@ -3,7 +3,8 @@ import { app } from "../config/app";
 import { transErrors, transSuccess } from "../../lang/vi";
 import { v4 as uuidv4 } from "uuid";
 import { user } from "../services/index";
-import fsExtra from 'fs-extra'; 
+import fsExtra from "fs-extra";
+import { validationResult } from "express-validator";
 
 let storageAvatar = multer.diskStorage({
   destination: (req, file, cb) => {
@@ -27,7 +28,7 @@ let avatarUploadFile = multer({
   }
 }).single("avatar");
 
-let updateAvatar =  (req, res) => {
+let updateAvatar = (req, res) => {
   avatarUploadFile(req, res, async err => {
     if (err) {
       if (err.message) {
@@ -47,15 +48,15 @@ let updateAvatar =  (req, res) => {
       let userUpdate = await user.updateUser(req.user._id, updateUserItem);
 
       // Remove old avatar from /src/public/images/users/
-      // Dùng userUpdate.avatar vì dù update dữ liệu mới rồi nhưng hàm findByIdAnUpdate của 
-      // Mongoose vẫn trả về giá trị trước khi được update 
-      await fsExtra.remove(`${app.avatar_directory}/${userUpdate.avatar}`);   
-      
+      // Dùng userUpdate.avatar vì dù update dữ liệu mới rồi nhưng hàm findByIdAnUpdate của
+      // Mongoose vẫn trả về giá trị trước khi được update
+      await fsExtra.remove(`${app.avatar_directory}/${userUpdate.avatar}`);
+
       let result = {
-        message: transSuccess.avatar_updated,
+        message: transSuccess.user_info_updated,
         image: `/images/users/${req.file.filename}`
-      }
-      
+      };
+
       return res.status(200).send(result);
     } catch (error) {
       console.log(error);
@@ -64,6 +65,37 @@ let updateAvatar =  (req, res) => {
   });
 };
 
+let updateInfo = async (req, res) => {
+  let errorArr = [];
+  let validationErrors = validationResult(req);
+
+  // .isEmty() trả về true/false, xem mảng errors có trống hay không,
+  // nếu trống tức true là không có lỗi, nếu có phần tử tức là có lỗi
+  if (!validationErrors.isEmpty()) {
+    let errors = Object.values(validationResult(req).mapped());
+
+    errors.forEach(element => {
+      errorArr.push(element.msg);
+    });
+
+    return res.status(500).send(errorArr);
+  }
+
+  try {
+    let updateUserItem = req.body;
+    await user.updateUser(req.user._id, updateUserItem);
+
+    let result = {
+      message: transSuccess.user_info_updated
+    };
+    return res.status(200).send(result);
+  } catch (error) {
+    console.log(error);
+    return res.status(500).send(error);
+  }
+};
+
 module.exports = {
-  updateAvatar
+  updateAvatar,
+  updateInfo
 };
