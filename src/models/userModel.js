@@ -44,7 +44,7 @@ userSchema.statics = {
   },
   findByToken(token) {
     return this.findOne({
-      'local.verifyToken': token
+      "local.verifyToken": token
     }).exec();
   },
   verify(token) {
@@ -55,15 +55,18 @@ userSchema.statics = {
   },
   findUserById(userId) {
     return this.findById({ _id: userId }).exec();
-  }, 
+  },
   findByFacebookId(uid) {
-    return this.findOne({ 'facebook.uid': uid }).exec();
+    return this.findOne({ "facebook.uid": uid }).exec();
   },
   findByGoogleId(uid) {
-    return this.findOne({ 'google.uid': uid }).exec();
+    return this.findOne({ "google.uid": uid }).exec();
   },
   updateUser(id, item) {
     return this.findByIdAndUpdate(id, item).exec();
+  },
+  updatePassword(id, hashedPassword) {
+    return this.findByIdAndUpdate(id, { "local.password": hashedPassword }).exec();
   }
 };
 
@@ -71,6 +74,6 @@ userSchema.methods = {
   comparePassword(password) {
     return bcrypt.compare(password, this.local.password);
   }
-}
+};
 
 module.exports = mongoose.model("user", userSchema);

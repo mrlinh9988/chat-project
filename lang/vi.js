@@ -16,12 +16,14 @@ export const transErrors = {
     "Tài khoản này đã bị xóa khỏi hệ thống. Nếu thông tin này là hiểu nhầm, vui lòng liên hệ với bộ phận hỗ trợ của chúng tôi",
   account_not_active:
     "Tài khoản đã được đăng ký nhưng chưa được active. Vui lòng kiểm tra email của bạn",
+  account_undefined: "Tài khoản này không tồn tại",
   token_undefined: "Token không tồn tại. Tài khoản này đã được kích hoạt",
   login_failed: "Sai tài khoản hoặc mật khẩu",
   server_error: "Lỗi server. Vui lòng thông báo với quản trị viên",
   avatar_type:
     "Kiểu file không hợp lệ. Chỉ chấp nhận định dạng png, jpg hoặc jpeg",
-  avatar_size: "Kích thước ảnh tối đa là 5MB"
+  avatar_size: "Kích thước ảnh tối đa là 5MB",
+  user_current_password_failed: "Mật khẩu cũ không chính xác"
 };
 
 export const transSuccess = {
@@ -34,7 +36,8 @@ export const transSuccess = {
     return `Chào mừng ${username} đến với ứng dụng Linh Chat`;
   },
   logout_success: "Đăng xuất tài khoản thành công",
-  user_info_updated: "Cập nhật thông tin người dùng thành công"
+  user_info_updated: "Cập nhật thông tin người dùng thành công",
+  user_password_updated: "Thay đổi mật khẩu thành công"
 };
 
 export const transMail = {

@@ -156,10 +156,10 @@ function cancelCreateGroup() {
 
 // Thông báo popup khi người dùng đăng nhập thành công vào ứng dụng, sau 7s thì tắt popup
 function flashMasterNotify() {
-  let notify = $('.master-success-message').text();
+  let notify = $(".master-success-message").text();
 
   if (notify.length) {
-    alertify.notify(notify, 'success', 7); // alertify là 1 thư viện JS, được khai báo ở master.ejs
+    alertify.notify(notify, "success", 7); // alertify là 1 thư viện JS, được khai báo ở master.ejs
   }
 }
 
@@ -192,7 +192,6 @@ $(document).ready(function() {
 
   // Action hủy việc tạo nhóm trò chuyện
   cancelCreateGroup();
-
 
   // flash message ở màn hình master
   flashMasterNotify();
