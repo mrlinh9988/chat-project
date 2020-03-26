@@ -83,10 +83,10 @@ userSchema.statics = {
           { "local.isActive": true },
           {
             $or: [
-              { username: { $regex: keyword } }, // gần giống với keyword, không cần giống 100%
-              { "local.email": { $regex: keyword } },
-              { "facebook.email": { $regex: keyword } },
-              { "google.email": { $regex: keyword } }
+              { username: { $regex: new RegExp(keyword, "i") } }, // gần giống với keyword, không cần giống 100%
+              { "local.email": { $regex: new RegExp(keyword, "i") } },
+              { "facebook.email": { $regex: new RegExp(keyword, "i") } },
+              { "google.email": { $regex: new RegExp(keyword, "i") } }
             ]
           }
         ]
