@@ -22,8 +22,10 @@ function callFindUser(element) {
 
     // Gửi ajax /contact/find-users/${keyword} - method : GET
     $.get(`/contact/find-users/${keyword}`, function(data) {
-      console.log(data);
+      // console.log(data);
       $("#find-user ul").html(data);
+      addContact(); // js/addContact.js
+      removeRequestContact(); //js/removeRequestContact
     });
   }
 }

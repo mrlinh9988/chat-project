@@ -1,4 +1,5 @@
 import mongoose, { model, mongo } from "mongoose";
+import { contact } from "../services";
 
 let Schema = mongoose.Schema;
 
@@ -19,6 +20,29 @@ contactSchema.statics = {
   findAllByUser(userId) {
     return this.find({
       $or: [{ userId }, { contactId: userId }]
+    }).exec();
+  },
+  /**
+   * check contact between 2 user
+   * @param {string: } userId
+   * @param {string} contactId
+   */
+  checkExists(userId, contactId) {
+    return this.findOne({
+      $or: [
+        { $and: [{ userId }, { contactId }] },
+        { $and: [{ userId: contactId }, { contactId: userId }] }
+      ]
+    }).exec();
+  },
+  /**
+   * Remove request contact
+   * @param {string} userId
+   * @param {string} contactId
+   */
+  removeRequestContact(userId, contactId) {
+    return this.deleteOne({
+      $and: [{ userId }, { contactId }]
     }).exec();
   }
 };
