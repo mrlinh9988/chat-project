@@ -9,6 +9,10 @@
   # config app environment variables
   export APP_PORT=***
   export APP_HOST=***
+  
+  # config session key and secret
+  export SESSION_KEY=***
+  export SESSION_SECRET=***
 
   # config admin email account
   export MAIL_USER=***

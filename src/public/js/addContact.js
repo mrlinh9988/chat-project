@@ -17,9 +17,8 @@ function addContact() {
           .css("display", "inline-block");
 
         increaseNumberNotityContact("count-request-contact-sent"); // Thẻ <span class="show-number-contacts count-request-contact-sent">
+        socket.emit("add-new-contact", { contactId: targetId });
       }
-
-      console.log(data);
     });
   });
 }
