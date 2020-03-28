@@ -23,7 +23,18 @@ function removeRequestContact() {
         }
 
         decreaseNumberNotityContact("count-request-contact-sent");
+        socket.emit("remove-request-contact", { contactId: targetId });
       }
     });
   });
 }
+
+socket.on("respone-remove-request-contact", function(user) {
+  
+  $(".noti_content").find(`span[data-uid = ${user.id}]`).remove(); // xóa thông báo
+
+  decreaseNumberNotityContact("count-request-contact-received"); // Yêu cầu kết bạn
+
+  decreaseNumberNotification("noti_contact_counter");
+  decreaseNumberNotification("noti_counter");
+});

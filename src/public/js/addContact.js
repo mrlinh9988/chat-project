@@ -22,3 +22,16 @@ function addContact() {
     });
   });
 }
+
+socket.on("respone-add-new-contact", function(user) {
+  let notify = `<span data-uid="${user.id}">
+                  <img class="avatar-small" src="images/users/${user.avatar}" alt="">
+                  <strong>${user.username}</strong> đã gửi cho bạn một lời mời kết bạn!
+                </span><br><br><br>`;
+  $(".noti_content").prepend(notify); // prepend là đẩy thông báo từ trên xuống dưới (thông báo mới nhất luôn trên cùng), append là đẩy từ dưới lên trên
+
+  increaseNumberNotityContact("count-request-contact-received"); // Yêu cầu kết bạn
+
+  increaseNumberNotification("noti_contact_counter");
+  increaseNumberNotification("noti_counter");
+});
