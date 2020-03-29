@@ -10,6 +10,7 @@ import socketio from "socket.io";
 import initSockets from "./sockets/index";
 import cookieParser from "cookie-parser";
 import configSocketIo from "./config/socketio";
+import cors from "cors";
 
 // Init app
 const app = express();
@@ -26,6 +27,9 @@ session.config(app);
 
 // View engine
 ConfigViewEngine(app);
+
+// cors 
+app.use(cors());
 
 // Enable post data for request
 app.use(express.urlencoded({ extended: true }));
