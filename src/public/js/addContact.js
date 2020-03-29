@@ -24,11 +24,14 @@ function addContact() {
 }
 
 socket.on("respone-add-new-contact", function(user) {
-  let notify = `<span class="notif-readed-false" data-uid="${user.id}">
+  let notify = `<div class="notif-readed-false" data-uid="${user.id}">
                   <img class="avatar-small" src="images/users/${user.avatar}" alt="">
                   <strong>${user.username}</strong> đã gửi cho bạn một lời mời kết bạn!
-                </span><br><br><br>`;
-  $(".noti_content").prepend(notify); // prepend là đẩy thông báo từ trên xuống dưới (thông báo mới nhất luôn trên cùng), append là đẩy từ dưới lên trên
+                </div>`;
+  // prepend là đẩy thông báo từ trên xuống dưới (thông báo mới nhất luôn trên cùng), append là đẩy từ dưới lên trên              
+  $(".noti_content").prepend(notify);  // popup notification
+
+  $("ul.list-notifications").prepend(`<li>${notify}</li>`);  // modal notification
 
   increaseNumberNotityContact("count-request-contact-received"); // Yêu cầu kết bạn
 
