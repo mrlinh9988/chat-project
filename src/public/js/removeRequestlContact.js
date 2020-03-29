@@ -31,7 +31,9 @@ function removeRequestContact() {
 
 socket.on("respone-remove-request-contact", function(user) {
   
-  $(".noti_content").find(`span[data-uid = ${user.id}]`).remove(); // xóa thông báo
+  $(".noti_content").find(`div[data-uid = ${user.id}]`).remove(); // xóa thông báo popup
+
+  $("ul.list-notifications").find(`li>div[data-uid = ${user.id}]`).parent().remove();  // xóa thông báo modal
 
   decreaseNumberNotityContact("count-request-contact-received"); // Yêu cầu kết bạn
 
