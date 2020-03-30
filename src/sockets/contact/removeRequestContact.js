@@ -38,7 +38,7 @@ let removeRequestContact = io => {
       );
     });
 
-    console.log(clients);
+    // console.log(clients);
   });
 };
 

@@ -40,7 +40,7 @@ let addNewContact = io => {
       removeSocketIdFromArray(clients, socket.request.user._id, socket);
     });
 
-    console.log(clients);
+    // console.log(clients);
   });
 };
 
