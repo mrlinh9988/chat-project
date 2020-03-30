@@ -40,6 +40,20 @@ notificationSchema.statics = {
     return this.countDocuments({
       $and: [{ receiverId: userId }, { isRead: false }]
     });
+  },
+  /**
+   * Read more notification
+   * @param {string} userId
+   * @param {string} skip
+   * @param {string} limit
+   */
+  readMore(userId, skip, limit) {
+    return this.find({
+      receiverId: userId
+    })
+      .sort({ createdAt: -1 })
+      .skip(skip)
+      .limit(limit); 
   }
 };
 

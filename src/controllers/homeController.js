@@ -5,7 +5,7 @@ let getHome = async (req, res) => {
   let notifications = await notification.getNotifications(req.user._id);
   // get amount notifications not read
   let countNotifUnread = await notification.countNotifUnread(req.user._id);
-  console.log(countNotifUnread);
+  // console.log(countNotifUnread);
 
   return res.render("main/home/home", {
     errors: req.flash("errors"),
