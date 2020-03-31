@@ -37,6 +37,6 @@ socket.on("respone-remove-request-contact", function(user) {
 
   decreaseNumberNotityContact("count-request-contact-received"); // Yêu cầu kết bạn
 
-  decreaseNumberNotification("noti_contact_counter");
-  decreaseNumberNotification("noti_counter");
+  decreaseNumberNotification("noti_contact_counter", 1);
+  decreaseNumberNotification("noti_counter", 1);
 });

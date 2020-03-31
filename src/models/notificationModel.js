@@ -53,7 +53,20 @@ notificationSchema.statics = {
     })
       .sort({ createdAt: -1 })
       .skip(skip)
-      .limit(limit); 
+      .limit(limit);
+  },
+  /**
+   * Mark notification as readed
+   * @param {string} userId
+   * @param {array} targetUsers
+   */
+  markAllAsRead(userId, targetUsers) {
+    return this.updateMany(
+      {
+        $and: [{ receiverId: userId }, { senderId: { $in: targetUsers } }] // $in nghĩa là phần tử thuộc mảng targetUsers
+      },
+      { isRead: true }
+    );
   }
 };
 
