@@ -1,7 +1,7 @@
-function increaseNumberNotification(className) {
+function increaseNumberNotification(className, number) {
   let currentValue = +$(`.${className}`).text();
 
-  currentValue++;
+  currentValue += number;
 
   // Nếu bằng 0 tức là chưa có lời mời kết bạn nào
   if (currentValue === 0) {
@@ -15,13 +15,13 @@ function increaseNumberNotification(className) {
   }
 }
 
-function decreaseNumberNotification(className) {
+function decreaseNumberNotification(className, number) {
   // Tìm thẻ <b>
   // Có thể chuyển từ String -> Number bằng cách thêm "+" trước 1 String
   // Nếu số không tồn tại thì sẽ mặc định là số 0
   let currentValue = +$(`.${className}`).text();
 
-  currentValue--;
+  currentValue -= number;
 
   // Nếu bằng 0 tức là chưa có lời mời kết bạn nào
   if (currentValue === 0) {

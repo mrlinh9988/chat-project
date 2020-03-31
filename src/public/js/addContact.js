@@ -28,13 +28,13 @@ socket.on("respone-add-new-contact", function(user) {
                   <img class="avatar-small" src="images/users/${user.avatar}" alt="">
                   <strong>${user.username}</strong> đã gửi cho bạn một lời mời kết bạn!
                 </div>`;
-  // prepend là đẩy thông báo từ trên xuống dưới (thông báo mới nhất luôn trên cùng), append là đẩy từ dưới lên trên              
-  $(".noti_content").prepend(notify);  // popup notification
+  // prepend là đẩy thông báo từ trên xuống dưới (thông báo mới nhất luôn trên cùng), append là đẩy từ dưới lên trên
+  $(".noti_content").prepend(notify); // popup notification
 
-  $("ul.list-notifications").prepend(`<li>${notify}</li>`);  // modal notification
+  $("ul.list-notifications").prepend(`<li>${notify}</li>`); // modal notification
 
   increaseNumberNotityContact("count-request-contact-received"); // Yêu cầu kết bạn
 
-  increaseNumberNotification("noti_contact_counter");
-  increaseNumberNotification("noti_counter");
+  increaseNumberNotification("noti_contact_counter", 1);
+  increaseNumberNotification("noti_counter", 1);
 });
