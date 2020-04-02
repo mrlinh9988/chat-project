@@ -20,7 +20,8 @@ let addNewContact = io => {
       let currentUser = {
         id: socket.request.user._id,
         avatar: socket.request.user.avatar,
-        username: socket.request.user.username
+        username: socket.request.user.username,
+        address: (socket.request.user.address !== null)  ? socket.request.user.address : ""
       };
 
       // Nếu nhận được contactId từ client gửi lên
