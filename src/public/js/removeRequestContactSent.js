@@ -23,7 +23,9 @@ function removeRequestContactSent() {
             .css("display", "inline-block");
         }
 
-        decreaseNumberNotityContact("count-request-contact-sent");
+        decreaseNumberNotification("noti_contact_counter", 1); // js/calculateNotification.js
+
+        decreaseNumberNotityContact("count-request-contact-sent"); // js/calculateNotifyContact.js
 
         // Xóa ở modal tab đang chờ xác nhận
         $("#request-contact-sent")
@@ -53,8 +55,8 @@ socket.on("respone-remove-request-contact-sent", function(user) {
 
   decreaseNumberNotityContact("count-request-contact-received"); // Yêu cầu kết bạn
 
-  decreaseNumberNotification("noti_contact_counter", 1);
-  decreaseNumberNotification("noti_counter", 1);
+  decreaseNumberNotification("noti_contact_counter", 1); // js/calculateNotification.js
+  decreaseNumberNotification("noti_counter", 1); // js/calculateNotification.js
 });
 
 $(document).ready(function() {

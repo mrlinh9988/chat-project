@@ -1,6 +1,6 @@
 $(document).ready(function() {
   $("#link-read-more-contacts-received").bind("click", function() {
-    console.log('alo');
+    console.log("alo");
     let skipNumber = $("#request-contact-received").find("li").length;
 
     $("#link-read-more-contacts-received").css("display", "none");
@@ -13,40 +13,48 @@ $(document).ready(function() {
           if (!newContactUsers.length) {
             alertify.notify("Bạn không còn danh sách nào để xem", "error", 7);
 
-            $("#link-read-more-contacts-received").css("display", "inline-block");
+            $("#link-read-more-contacts-received").css(
+              "display",
+              "inline-block"
+            );
             $(".read-more-contacts-received-loader").css("display", "none");
 
             return false;
           }
 
           newContactUsers.forEach(function(user) {
-            console.log('user: ', user);
-            $("#request-contact-received").find(
-              "ul"
-            ).append(`<li class="_contactList" data-uid="${user._id}">
-                        <div class="contactPanel">
-                            <div class="user-avatar">
-                                <img src="images/users/${user.avatar}" alt="">
-                            </div>
-                            <div class="user-name">
-                                <p>
-                                    ${user.username}
-                                </p>
-                            </div>
-                            <br>
-                            <div class="user-address">
-                                <span>&nbsp ${(user.address !== null) ? user.address : ""}</span>
-                            </div>
-                            <div class="user-acccept-contact-received" data-uid="${user._id}">
-                                Chấp nhận
-                            </div>
-                            <div class="user-reject-request-contact-received action-danger"
-                                data-uid="${user._id}">
-                                Xóa yêu cầu
-                            </div>
-                        </div>
-                    </li>`); // modal notif
+            console.log("user: ", user);
+            $("#request-contact-received").find("ul").append(`
+              <li class="_contactList" data-uid="${user._id}">
+                <div class="contactPanel">
+                    <div class="user-avatar">
+                        <img src="images/users/${user.avatar}" alt="">
+                    </div>
+                    <div class="user-name">
+                        <p>
+                            ${user.username}
+                        </p>
+                    </div>
+                    <br>
+                    <div class="user-address">
+                        <span>&nbsp ${
+                          user.address !== null ? user.address : ""
+                        }</span>
+                    </div>
+                    <div class="user-acccept-contact-received" data-uid="${
+                      user._id
+                    }">
+                        Chấp nhận
+                    </div>
+                    <div class="user-remove-request-contact-received action-danger"
+                        data-uid="${user._id}">
+                        Xóa yêu cầu
+                    </div>
+                </div>
+              </li>`); // modal notif
           });
+
+          removeRequestContactReceived(); // js/removeRquestContactReceived.js
 
           $("#link-read-more-contacts-received").css("display", "block");
           $(".read-more-contacts-received-loader").css("display", "none");
