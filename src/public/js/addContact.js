@@ -12,7 +12,7 @@ function addContact() {
           .hide();
         $("#find-user")
           .find(
-            `div.user-remove-request-contact[data-uid = ${targetId}]` // Tìm thẻ div.user-add-new-contact để ẩn đi
+            `div.user-remove-request-contact-sent[data-uid = ${targetId}]` // Tìm thẻ div.user-add-new-contact để ẩn đi
           )
           .css("display", "inline-block");
 
@@ -28,6 +28,8 @@ function addContact() {
         $("#request-contact-sent")
           .find("ul")
           .prepend(userInfoHtml);
+
+        removeRequestContactSent(); // js/removeRequestContactsent
 
         socket.emit("add-new-contact", { contactId: targetId });
       }
@@ -74,7 +76,7 @@ socket.on("respone-add-new-contact", function(user) {
                             </div>
                         </div>
                       </li>`;
-  
+
   $("#request-contact-received")
     .find("ul")
     .prepend(userInfoHtml);
