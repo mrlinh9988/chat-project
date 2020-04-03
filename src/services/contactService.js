@@ -4,7 +4,7 @@ import UserModel from "../models/userModel";
 import _ from "lodash";
 // import { remove } from "fs-extra";
 
-const LIMIT_NUMBER_TAKEN = 10;
+const LIMIT_NUMBER_TAKEN = 1;
 
 let findUsersContact = (currentUserId, keyword) => {
   return new Promise(async (resolve, reject) => {
@@ -48,20 +48,19 @@ let addNew = (currentUserId, contactId) => {
   });
 };
 
-let removeRequestContact = (currentUserId, contactId) => {
+let removeRequestContactSent = (currentUserId, contactId) => {
   return new Promise(async (resolve, reject) => {
-    let removeReq = await ContactModel.removeRequestContact(
+    let removeReq = await ContactModel.removeRequestContactSent(
       currentUserId,
       contactId
     );
 
-    console.log(removeReq);
     if (removeReq.n === 0) {
       return reject(false);
     }
 
     // remove notification
-    await NotificationModel.model.removeRequestContactNotification(
+    await NotificationModel.model.removeRequestContactSentNotification(
       currentUserId,
       contactId,
       NotificationModel.type.ADD_CONTACT
@@ -252,7 +251,7 @@ let readMoreContactsReceived = (currentUserId, skipNumberContact) => {
 module.exports = {
   findUsersContact,
   addNew,
-  removeRequestContact,
+  removeRequestContactSent,
   getContacts,
   getSentContacts,
   getReceivedContacts,

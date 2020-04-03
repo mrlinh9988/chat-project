@@ -7,12 +7,12 @@ import {
 /**
  * @param io from socket.io
  */
-let removeRequestContact = io => {
+let removeRequestContactSent = io => {
   let clients = {};
   io.on("connection", socket => {
     clients = pushSocketIdToArray(clients, socket.request.user._id, socket.id);
 
-    socket.on("remove-request-contact", data => {
+    socket.on("remove-request-contact-sent", data => {
       let currentUser = {
         id: socket.request.user._id
       };
@@ -24,13 +24,13 @@ let removeRequestContact = io => {
           clients,
           data.contactId,
           io,
-          "respone-remove-request-contact",
+          "respone-remove-request-contact-sent",
           currentUser
         );
       }
     });
 
-    socket.on("disconnect", () => {
+    socket.on("disconnect", () => { 
       clients = removeSocketIdFromArray(
         clients,
         socket.request.user._id,
@@ -42,4 +42,4 @@ let removeRequestContact = io => {
   });
 };
 
-module.exports = removeRequestContact;
+module.exports = removeRequestContactSent;

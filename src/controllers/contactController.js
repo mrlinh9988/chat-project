@@ -44,12 +44,12 @@ let addNew = async (req, res) => {
   }
 };
 
-let removeRequestContact = async (req, res) => {
+let removeRequestContactSent = async (req, res) => {
   try {
     let currentUserId = req.user._id;
     let contactId = req.body.uid;
 
-    let removeReq = await contact.removeRequestContact(
+    let removeReq = await contact.removeRequestContactSent(
       currentUserId,
       contactId
     );
@@ -113,7 +113,7 @@ let readMoreContactsReceived = async (req, res) => {
 module.exports = {
   findUsersContact,
   addNew,
-  removeRequestContact,
+  removeRequestContactSent,
   readMoreContacts,
   readMoreContactsSent,
   readMoreContactsReceived
