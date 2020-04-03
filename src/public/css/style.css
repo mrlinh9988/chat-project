@@ -1312,7 +1312,7 @@ label:focus,
   text-align: center;
 }
 
-/* read more loader*/
+/* read more notification loader*/
 .read-more-loader {
   display: none;
   position: relative;
@@ -1429,6 +1429,122 @@ label:focus,
   left: 12px;
 }
 @keyframes master-loader {
+  0% {
+    transform: rotate(0deg);
+  }
+  100% {
+    transform: rotate(360deg);
+  }
+}
+
+
+/* read more contacts loader*/
+.read-more-contacts-loader {
+  display: none;
+  position: relative;
+  width: 64px;
+  height: 64px;
+  margin-top: 10px;
+}
+.read-more-contacts-loader div {
+  box-sizing: border-box;
+  display: block;
+  position: absolute;
+  width: 32px;
+  height: 32px;
+  margin: 8px;
+  border: 4px solid #7d94c5;
+  border-radius: 50%;
+  animation: read-more-contacts-loader 1.2s cubic-bezier(0.5, 0, 0.5, 1) infinite;
+  border-color: #7d94c5 transparent transparent transparent;
+}
+.read-more-contacts-loader div:nth-child(1) {
+  animation-delay: -0.45s;
+}
+.read-more-contacts-loader div:nth-child(2) {
+  animation-delay: -0.3s;
+}
+.read-more-contacts-loader div:nth-child(3) {
+  animation-delay: -0.15s;
+}
+@keyframes read-more-contacts-loader {
+  0% {
+    transform: rotate(0deg);
+  }
+  100% {
+    transform: rotate(360deg);
+  }
+}
+
+
+/* read more contacts sent loader*/
+.read-more-contacts-sent-loader {
+  display: none;
+  position: relative;
+  width: 64px;
+  height: 64px;
+  margin-top: 10px;
+}
+.read-more-contacts-sent-loader div {
+  box-sizing: border-box;
+  display: block;
+  position: absolute;
+  width: 32px;
+  height: 32px;
+  margin: 8px;
+  border: 4px solid #7d94c5;
+  border-radius: 50%;
+  animation: read-more-contacts-sent-loader 1.2s cubic-bezier(0.5, 0, 0.5, 1) infinite;
+  border-color: #7d94c5 transparent transparent transparent;
+}
+.read-more-contacts-sent-loader div:nth-child(1) {
+  animation-delay: -0.45s;
+}
+.read-more-contacts-sent-loader div:nth-child(2) {
+  animation-delay: -0.3s;
+}
+.read-more-contacts-sent-loader div:nth-child(3) {
+  animation-delay: -0.15s;
+}
+@keyframes read-more-contacts-sent-loader {
+  0% {
+    transform: rotate(0deg);
+  }
+  100% {
+    transform: rotate(360deg);
+  }
+}
+
+/* read more contacts sent loader*/
+.read-more-contacts-received-loader {
+  display: none;
+  position: relative;
+  width: 64px;
+  height: 64px;
+  margin-top: 10px;
+}
+.read-more-contacts-received-loader div {
+  box-sizing: border-box;
+  display: block;
+  position: absolute;
+  width: 32px;
+  height: 32px;
+  margin: 8px;
+  border: 4px solid #7d94c5;
+  border-radius: 50%;
+  animation: read-more-contacts-received-loader 1.2s cubic-bezier(0.5, 0, 0.5, 1) infinite;
+  border-color: #7d94c5 transparent transparent transparent;
+}
+.read-more-contacts-received-loader div:nth-child(1) {
+  animation-delay: -0.45s;
+}
+.read-more-contacts-received-loader div:nth-child(2) {
+  animation-delay: -0.3s;
+}
+.read-more-contacts-received-loader div:nth-child(3) {
+  animation-delay: -0.15s;
+}
+@keyframes read-more-contacts-received-loader {
   0% {
     transform: rotate(0deg);
   }

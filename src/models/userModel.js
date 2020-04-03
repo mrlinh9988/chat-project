@@ -54,7 +54,7 @@ userSchema.statics = {
     ).exec();
   },
   findUserById(userId) {
-    return this.findById({ _id: userId }).exec();
+    return this.findById(userId).exec();
   },
   findByFacebookId(uid) {
     return this.findOne({ "facebook.uid": uid }).exec();
@@ -93,6 +93,14 @@ userSchema.statics = {
       },
       { _id: 1, username: 1, address: 1, avatar: 1 } // chỉ lấy ra những trường muốn lấy
     ).exec();
+  },
+  getNormalUserDataById(userId) {
+    return this.findById(userId, {
+      _id: 1,
+      username: 1,
+      address: 1,
+      avatar: 1
+    }); // chỉ lấy ra những trường muốn lấy)
   }
 };
 
