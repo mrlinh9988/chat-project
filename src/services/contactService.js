@@ -2,7 +2,6 @@ import ContactModel from "../models/contactModel";
 import NotificationModel from "../models/notificationModel";
 import UserModel from "../models/userModel";
 import _ from "lodash";
-import { user } from ".";
 // import { remove } from "fs-extra";
 
 const LIMIT_NUMBER_TAKEN = 10;
@@ -82,9 +81,9 @@ let getContacts = currentUserId => {
 
       let users = contacts.map(async contact => {
         if (contact.contactId == currentUserId) {
-          return await UserModel.findUserById(contact.userId);
+          return await UserModel.getNormalUserDataById(contact.userId);
         } else {
-          return await UserModel.findUserById(contact.contactId);
+          return await UserModel.getNormalUserDataById(contact.contactId);
         }
       });
 
@@ -105,7 +104,7 @@ let getSentContacts = currentUserId => {
       );
 
       let users = contacts.map(async contact => {
-        return await UserModel.findUserById(contact.contactId);
+        return await UserModel.getNormalUserDataById(contact.contactId);
       });
 
       resolve(await Promise.all(users));
@@ -161,12 +160,90 @@ let getReceivedContacts = currentUserId => {
       );
 
       let users = contacts.map(async contact => {
-        return await UserModel.findUserById(contact.userId);
+        return await UserModel.getNormalUserDataById(contact.userId);
       });
 
       resolve(await Promise.all(users));
     } catch (error) {
       console.log(error);
+      reject(error);
+    }
+  });
+};
+
+/**
+ * Read more contact tab Danh bạ
+ * @param {String} currentUserId
+ * @param {Number} skipNumberContact
+ */
+let readMoreContacts = (currentUserId, skipNumberContact) => {
+  return new Promise(async (resolve, reject) => {
+    try {
+      let newContacts = await ContactModel.readMoreContacts(
+        currentUserId,
+        skipNumberContact,
+        LIMIT_NUMBER_TAKEN
+      );
+
+      let users = newContacts.map(async contact => {
+        if (contact.contactId == currentUserId) {
+          return await UserModel.getNormalUserDataById(contact.userId);
+        } else {
+          return await UserModel.getNormalUserDataById(contact.contactId);
+        }
+      });
+
+      resolve(await Promise.all(users));
+    } catch (error) {
+      reject(error);
+    }
+  });
+};
+/**
+ * Read more contact sent tab Đang chờ xác nhận, max 10 item one time
+ * @param {string} currentUserId
+ * @param {number} skipNumberContact
+ */
+let readMoreContactsSent = (currentUserId, skipNumberContact) => {
+  return new Promise(async (resolve, reject) => {
+    try {
+      let newContacts = await ContactModel.readMoreContactsSent(
+        currentUserId,
+        skipNumberContact,
+        LIMIT_NUMBER_TAKEN
+      );
+
+      let users = newContacts.map(async contact => {
+        return await UserModel.getNormalUserDataById(contact.contactId);
+      });
+
+      resolve(await Promise.all(users));
+    } catch (error) {
+      reject(error);
+    }
+  });
+};
+
+/**
+ * Read more contact received tab Yêu cầu kết bạn, max 10 item one time
+ * @param {string} currentUserId
+ * @param {number} skipNumberContact
+ */
+let readMoreContactsReceived = (currentUserId, skipNumberContact) => {
+  return new Promise(async (resolve, reject) => {
+    try {
+      let newContacts = await ContactModel.readMoreContactsReceived(
+        currentUserId,
+        skipNumberContact,
+        LIMIT_NUMBER_TAKEN
+      );
+
+      let users = newContacts.map(async contact => {
+        return await UserModel.getNormalUserDataById(contact.userId);
+      });
+
+      resolve(await Promise.all(users));
+    } catch (error) {
       reject(error);
     }
   });
@@ -181,5 +258,8 @@ module.exports = {
   getReceivedContacts,
   countAllContacts,
   countAllSentContacts,
-  countAllReceivedContacts
+  countAllReceivedContacts,
+  readMoreContacts,
+  readMoreContactsSent,
+  readMoreContactsReceived
 };

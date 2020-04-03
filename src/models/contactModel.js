@@ -123,6 +123,53 @@ contactSchema.statics = {
     return this.countDocuments({
       $and: [{ contactId: userId }, { status: false }]
     });
+  },
+  /**
+   * Read more contact tab Danh bạ
+   * @param {String} userId
+   * @param {Number} skip
+   * @param {Number} limit
+   */
+  readMoreContacts(userId, skip, limit) {
+    return this.find({
+      $and: [
+        { $or: [{ userId: userId }, { contactId: userId }] },
+        { status: true }
+      ]
+    })
+      .sort({ createdAt: -1 })
+      .skip(skip)
+      .limit(limit);
+  },
+  /**
+   * Read more contact sent tab Đang chờ xác nhận, max 10 item one time
+   * @param {string} userId
+   * @param {number} skip
+   * @param {number} limit
+   */
+  readMoreContactsSent(userId, skip, limit) {
+    return this.find({
+      $and: [{ userId }, { status: false }]
+    })
+      .sort({ createdAt: -1 })
+      .skip(skip)
+      .limit(limit)
+      .exec();
+  },
+  /**
+   * Read more contact received tab Yêu cầu kết bạn, max 10 item one time
+   * @param {string} userId
+   * @param {number} skip
+   * @param {number} limit
+   */
+  readMoreContactsReceived(userId, skip, limit) {
+    return this.find({
+      $and: [{ contactId: userId }, { status: false }]
+    })
+      .sort({ createdAt: -1 })
+      .skip(skip)
+      .limit(limit)
+      .exec();
   }
 };
 
