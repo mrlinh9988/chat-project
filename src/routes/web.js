@@ -17,7 +17,7 @@ let router = express.Router();
   @param app from exactly express module
 */
 
-let initRoutes = app => {
+let initRoutes = (app) => {
   router.get("/login-register", auth.checkLoggedOut, auth.getLoginRegister);
   router.post(
     "/register",
@@ -33,7 +33,7 @@ let initRoutes = app => {
       successRedirect: "/",
       failureRedirect: "/login-register",
       successFlash: true,
-      failureFlash: true
+      failureFlash: true,
     })
   );
 
@@ -49,7 +49,7 @@ let initRoutes = app => {
     auth.checkLoggedOut,
     passport.authenticate("facebook", {
       successRedirect: "/",
-      failureRedirect: "/login-register"
+      failureRedirect: "/login-register",
     })
   );
 
@@ -65,13 +65,14 @@ let initRoutes = app => {
     auth.checkLoggedOut,
     passport.authenticate("google", {
       successRedirect: "/",
-      failureRedirect: "/login-register"
+      failureRedirect: "/login-register",
     })
   );
 
   router.get("/", auth.checkLoggedIn, home.getHome);
   router.get("/logout", auth.checkLoggedIn, auth.getLogout);
 
+  // user router
   router.put("/user/update-avatar", auth.checkLoggedIn, user.updateAvatar);
   router.put(
     "/user/update-info",
@@ -85,23 +86,62 @@ let initRoutes = app => {
     userValid.updatePassword,
     user.updatePassword
   );
+
+   // contact router
   router.get(
     "/contact/find-users/:keyword",
     auth.checkLoggedIn,
     contactValid.findUserContact,
     contact.findUsersContact
   );
-
   router.post("/contact/add-new", auth.checkLoggedIn, contact.addNew);
-  router.delete("/contact/remove-request-contact-sent", auth.checkLoggedIn, contact.removeRequestContactSent);
-  router.delete("/contact/remove-request-contact-received", auth.checkLoggedIn, contact.removeRequestContactReceived);
-  router.put("/contact/approve-request-contact-received", auth.checkLoggedIn, contact.approveRequestContactReceived);
-  router.get("/contact/read-more-contacts", auth.checkLoggedIn, contact.readMoreContacts);
-  router.get("/contact/read-more-contacts-sent", auth.checkLoggedIn, contact.readMoreContactsSent);
-  router.get("/contact/read-more-contacts-received", auth.checkLoggedIn, contact.readMoreContactsReceived);
+  router.delete(
+    "/contact/remove-request-contact-sent",
+    auth.checkLoggedIn,
+    contact.removeRequestContactSent
+  );
+  router.delete(
+    "/contact/remove-request-contact-received",
+    auth.checkLoggedIn,
+    contact.removeRequestContactReceived
+  );
+  router.delete(
+    "/contact/remove-contact",
+    auth.checkLoggedIn,
+    contact.removeContact
+  );
+  router.put(
+    "/contact/approve-request-contact-received",
+    auth.checkLoggedIn,
+    contact.approveRequestContactReceived
+  );
+  router.get(
+    "/contact/read-more-contacts",
+    auth.checkLoggedIn,
+    contact.readMoreContacts
+  );
+  router.get(
+    "/contact/read-more-contacts-sent",
+    auth.checkLoggedIn,
+    contact.readMoreContactsSent
+  );
+  router.get(
+    "/contact/read-more-contacts-received",
+    auth.checkLoggedIn,
+    contact.readMoreContactsReceived
+  );
 
-  router.get("/notification/read-more", auth.checkLoggedIn, notification.readMore);  
-  router.put("/notification/mark-all-as-read", auth.checkLoggedIn, notification.markAllAsRead);
+  // notification router
+  router.get(
+    "/notification/read-more",
+    auth.checkLoggedIn,
+    notification.readMore
+  );
+  router.put(
+    "/notification/mark-all-as-read",
+    auth.checkLoggedIn,
+    notification.markAllAsRead
+  );
 
   return app.use("/", router);
 };
