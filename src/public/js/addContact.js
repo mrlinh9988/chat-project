@@ -1,9 +1,9 @@
 function addContact() {
-  $(".user-add-new-contact").bind("click", function() {
+  $(".user-add-new-contact").bind("click", function () {
     let targetId = $(this).data("uid");
 
     // ajax method: POST
-    $.post("/contact/add-new", { uid: targetId }, function(data) {
+    $.post("/contact/add-new", { uid: targetId }, function (data) {
       if (data.success) {
         $("#find-user")
           .find(
@@ -28,9 +28,7 @@ function addContact() {
         // console.log(userInfoHtml);
 
         // Thêm ở modal đang chờ xác nhận
-        $("#request-contact-sent")
-          .find("ul")
-          .prepend(userInfoHtml);
+        $("#request-contact-sent").find("ul").prepend(userInfoHtml);
 
         removeRequestContactSent(); // js/removeRequestContactsent
 
@@ -40,11 +38,13 @@ function addContact() {
   });
 }
 
-socket.on("respone-add-new-contact", function(user) {
-  let notify = `<div class="notif-readed-false" data-uid="${user.id}">
-                  <img class="avatar-small" src="images/users/${user.avatar}" alt="">
-                  <strong>${user.username}</strong> đã gửi cho bạn một lời mời kết bạn!
-                </div>`;
+socket.on("respone-add-new-contact", function (user) {
+  let notify = `
+    <div class="notif-readed-false" data-uid="${user.id}">
+      <img class="avatar-small" src="images/users/${user.avatar}" alt="">
+      <strong>${user.username}</strong> đã gửi cho bạn một lời mời kết bạn!
+    </div>
+  `;
   // prepend là đẩy thông báo từ trên xuống dưới (thông báo mới nhất luôn trên cùng), append là đẩy từ dưới lên trên
   $(".noti_content").prepend(notify); // popup notification
 
@@ -71,7 +71,7 @@ socket.on("respone-add-new-contact", function(user) {
           <div class="user-address">
               <span>&nbsp ${user.address}</span>
           </div>
-          <div class="user-acccept-contact-received" data-uid="${user.id}">
+          <div class="user-approve-request-contact-received" data-uid="${user.id}">
               Chấp nhận
           </div>
           <div class="user-remove-request-contact-received action-danger"
@@ -82,9 +82,8 @@ socket.on("respone-add-new-contact", function(user) {
     </li>
     `;
 
-  $("#request-contact-received")
-    .find("ul")
-    .prepend(userInfoHtml);
+  $("#request-contact-received").find("ul").prepend(userInfoHtml);
 
   removeRequestContactReceived(); // js/removeRquestContactReceived.js
+  approveRequestContactReceived(); // js/approveRequestContactReceived
 });

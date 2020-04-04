@@ -8,7 +8,7 @@ let notificationSchema = new Schema({
   receiverId: String,
   type: String,
   isRead: { type: Boolean, default: false },
-  createdAt: { type: Number, default: Date.now() }
+  createdAt: { type: Number, default: Date.now() },
 });
 
 notificationSchema.statics = {
@@ -17,7 +17,7 @@ notificationSchema.statics = {
   },
   removeRequestContactSentNotification(senderId, receiverId, type) {
     return this.deleteOne({
-      $and: [{ senderId }, { receiverId }, { type }]
+      $and: [{ senderId }, { receiverId }, { type }],
     });
   },
   /**
@@ -27,7 +27,7 @@ notificationSchema.statics = {
    */
   getByUserAndLimit(userId, limit) {
     return this.find({
-      receiverId: userId
+      receiverId: userId,
     })
       .sort({ createdAt: -1 })
       .limit(limit);
@@ -38,7 +38,7 @@ notificationSchema.statics = {
    */
   countNotifUnread(userId) {
     return this.countDocuments({
-      $and: [{ receiverId: userId }, { isRead: false }]
+      $and: [{ receiverId: userId }, { isRead: false }],
     });
   },
   /**
@@ -49,7 +49,7 @@ notificationSchema.statics = {
    */
   readMore(userId, skip, limit) {
     return this.find({
-      receiverId: userId
+      receiverId: userId,
     })
       .sort({ createdAt: -1 })
       .skip(skip)
@@ -63,15 +63,16 @@ notificationSchema.statics = {
   markAllAsRead(userId, targetUsers) {
     return this.updateMany(
       {
-        $and: [{ receiverId: userId }, { senderId: { $in: targetUsers } }] // $in nghĩa là phần tử thuộc mảng targetUsers
+        $and: [{ receiverId: userId }, { senderId: { $in: targetUsers } }], // $in nghĩa là phần tử thuộc mảng targetUsers
       },
       { isRead: true }
     );
-  }
+  },
 };
 
 const NOTIFICATION_TYPES = {
-  ADD_CONTACT: "add_contact"
+  ADD_CONTACT: "add_contact",
+  APPROVE_CONTACT: "approve_contact",
 };
 
 const NOTIFICATION_CONTENT = {
@@ -87,13 +88,24 @@ const NOTIFICATION_CONTENT = {
                 <img class="avatar-small" src="images/users/${userAvatar}" alt="">
                 <strong>${username}</strong> đã gửi cho bạn một lời mời kết bạn!
               </div>`;
+    } else if (notificationType === NOTIFICATION_TYPES.APPROVE_CONTACT) {
+      if (!isRead) {
+        return `<div class="notif-readed-false" data-uid="${userId}">
+                  <img class="avatar-small" src="images/users/${userAvatar}" alt="">
+                  <strong>${username}</strong> đã chấp nhận lời mời kết bạn của bạn!
+                </div>`;
+      }
+      return `<div data-uid="${userId}">
+                <img class="avatar-small" src="images/users/${userAvatar}" alt="">
+                <strong>${username}</strong> đã chấp nhận lời mời kết bạn của bạn!
+              </div>`;
     }
     return "No matching with any notification type";
-  }
+  },
 };
 
 module.exports = {
   model: mongoose.model("notification", notificationSchema),
   type: NOTIFICATION_TYPES,
-  contents: NOTIFICATION_CONTENT
+  contents: NOTIFICATION_CONTENT,
 };
