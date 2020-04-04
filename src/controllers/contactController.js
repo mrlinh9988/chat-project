@@ -80,6 +80,24 @@ let removeRequestContactReceived = async (req, res) => {
   }
 };
 
+let approveRequestContactReceived = async (req, res) => {
+  try {
+    let currentUserId = req.user._id;
+    let contactId = req.body.uid;
+
+    let approveReq = await contact.approveRequestContactReceived(
+      currentUserId,
+      contactId
+    );
+
+    return res.status(200).send({
+      success: !!approveReq
+    });
+  } catch (error) {
+    return res.status(500).send(error);
+  }
+};
+
 let readMoreContacts = async (req, res) => {
   try {
     let skipNumberContact = +req.query.skipNumber; // === parseInt(req.query.skipNumber)
@@ -128,6 +146,8 @@ let readMoreContactsReceived = async (req, res) => {
   }
 };
 
+
+
 module.exports = {
   findUsersContact,
   addNew,
@@ -135,5 +155,6 @@ module.exports = {
   readMoreContacts,
   readMoreContactsSent,
   readMoreContactsReceived,
-  removeRequestContactReceived
+  removeRequestContactReceived,
+  approveRequestContactReceived
 };

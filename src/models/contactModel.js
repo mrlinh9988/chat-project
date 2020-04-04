@@ -9,7 +9,7 @@ let contactSchema = new Schema({
   status: { type: Boolean, default: false },
   createdAt: { type: Number, default: Date.now() },
   updatedAt: { type: Number, default: null },
-  deteledAt: { type: Number, default: null }
+  deteledAt: { type: Number, default: null },
 });
 
 contactSchema.statics = {
@@ -19,7 +19,7 @@ contactSchema.statics = {
   // Tìm tất cả contact của người dùng hiện tại
   findAllByUser(userId) {
     return this.find({
-      $or: [{ userId }, { contactId: userId }]
+      $or: [{ userId }, { contactId: userId }],
     }).exec();
   },
 
@@ -32,8 +32,8 @@ contactSchema.statics = {
     return this.findOne({
       $or: [
         { $and: [{ userId }, { contactId }] },
-        { $and: [{ userId: contactId }, { contactId: userId }] }
-      ]
+        { $and: [{ userId: contactId }, { contactId: userId }] },
+      ],
     }).exec();
   },
 
@@ -44,19 +44,32 @@ contactSchema.statics = {
    */
   removeRequestContactSent(userId, contactId) {
     return this.deleteOne({
-      $and: [{ userId }, { contactId }]
+      $and: [{ userId }, { contactId }, { status: false }],
     }).exec();
   },
 
   /**
-   * Remove request contact received 
+   * Remove request contact received
    * @param {string} userId
    * @param {string} contactId
    */
   removeRequestContactReceived(userId, contactId) {
     return this.deleteOne({
-      $and: [{ userId: contactId }, { contactId: userId }]
+      $and: [{ userId: contactId }, { contactId: userId }, { status: false }],
     }).exec();
+  },
+  /**
+   * Approve request contact
+   * @param {string} userId
+   * @param {string} contactId
+   */
+  approveRequestContactReceived(userId, contactId) {
+    return this.updateOne(
+      {
+        $and: [{ userId: contactId }, { contactId: userId }, { status: false }],
+      },
+      { status: true, updatedAt: Date.now() }
+    ).exec();
   },
 
   /**
@@ -68,8 +81,8 @@ contactSchema.statics = {
     return this.find({
       $and: [
         { $or: [{ userId: userId }, { contactId: userId }] },
-        { status: true }
-      ]
+        { status: true },
+      ],
     })
       .sort({ createdAt: -1 })
       .limit(limit)
@@ -83,7 +96,7 @@ contactSchema.statics = {
    */
   getSentContacts(userId, limit) {
     return this.find({
-      $and: [{ userId }, { status: false }]
+      $and: [{ userId }, { status: false }],
     })
       .sort({ createdAt: -1 })
       .limit(limit)
@@ -97,7 +110,7 @@ contactSchema.statics = {
    */
   getReceivedContacts(userId, limit) {
     return this.find({
-      $and: [{ contactId: userId }, { status: false }]
+      $and: [{ contactId: userId }, { status: false }],
     })
       .sort({ createdAt: -1 })
       .limit(limit)
@@ -111,8 +124,8 @@ contactSchema.statics = {
     return this.countDocuments({
       $and: [
         { $or: [{ userId: userId }, { contactId: userId }] },
-        { status: true }
-      ]
+        { status: true },
+      ],
     });
   },
 
@@ -122,7 +135,7 @@ contactSchema.statics = {
    */
   countAllSentContacts(userId) {
     return this.countDocuments({
-      $and: [{ userId }, { status: false }]
+      $and: [{ userId }, { status: false }],
     });
   },
 
@@ -132,7 +145,7 @@ contactSchema.statics = {
    */
   countAllReceivedContacts(userId) {
     return this.countDocuments({
-      $and: [{ contactId: userId }, { status: false }]
+      $and: [{ contactId: userId }, { status: false }],
     });
   },
   /**
@@ -145,8 +158,8 @@ contactSchema.statics = {
     return this.find({
       $and: [
         { $or: [{ userId: userId }, { contactId: userId }] },
-        { status: true }
-      ]
+        { status: true },
+      ],
     })
       .sort({ createdAt: -1 })
       .skip(skip)
@@ -160,7 +173,7 @@ contactSchema.statics = {
    */
   readMoreContactsSent(userId, skip, limit) {
     return this.find({
-      $and: [{ userId }, { status: false }]
+      $and: [{ userId }, { status: false }],
     })
       .sort({ createdAt: -1 })
       .skip(skip)
@@ -175,13 +188,13 @@ contactSchema.statics = {
    */
   readMoreContactsReceived(userId, skip, limit) {
     return this.find({
-      $and: [{ contactId: userId }, { status: false }]
+      $and: [{ contactId: userId }, { status: false }],
     })
       .sort({ createdAt: -1 })
       .skip(skip)
       .limit(limit)
       .exec();
-  }
+  },
 };
 
 module.exports = mongoose.model("contact", contactSchema);
