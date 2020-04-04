@@ -1,12 +1,12 @@
-$(document).ready(function() {
-  $("#link-read-more-contacts").bind("click", function() {
+$(document).ready(function () {
+  $("#link-read-more-contacts").bind("click", function () {
     let skipNumber = $("#contacts").find("li").length;
 
     $("#link-read-more-contacts").css("display", "none");
     $(".read-more-contacts-loader").css("display", "inline-block");
 
     setTimeout(() => {
-      $.get(`/contact/read-more-contacts?skipNumber=${skipNumber}`, function(
+      $.get(`/contact/read-more-contacts?skipNumber=${skipNumber}`, function (
         newContactUsers
       ) {
         if (!newContactUsers.length) {
@@ -18,8 +18,7 @@ $(document).ready(function() {
           return false;
         }
 
-        newContactUsers.forEach(function(user) {
-          console.log(user);
+        newContactUsers.forEach(function (user) {
           $("#contacts").find(
             "ul"
           ).append(`<li class="_contactList" data-uid="${user._id}">
@@ -49,6 +48,8 @@ $(document).ready(function() {
                       </div>
                   </li>`); // modal notif
         });
+
+        removeContact(); // js/removeContact.js
 
         $("#link-read-more-contacts").css("display", "block");
         $(".read-more-contacts-loader").css("display", "none");

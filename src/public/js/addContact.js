@@ -86,4 +86,5 @@ socket.on("respone-add-new-contact", function (user) {
 
   removeRequestContactReceived(); // js/removeRquestContactReceived.js
   approveRequestContactReceived(); // js/approveRequestContactReceived
+  removeContact();
 });

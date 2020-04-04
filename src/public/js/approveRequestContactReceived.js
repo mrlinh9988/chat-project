@@ -35,6 +35,8 @@ function approveRequestContactReceived() {
             decreaseNumberNotityContact("count-request-contact-received");
             decreaseNumberNotification("noti_contact_counter", 1);
 
+            removeContact(); // js/removeContact.js
+
             socket.emit("approve-request-contact-received", {
               contactId: targetId,
             });
@@ -89,6 +91,8 @@ socket.on("respone-approve-request-contact-received", function (user) {
   `;
 
   $("#contacts").find("ul").prepend(userInfoHtml);
+
+  removeContact(); // js/removeContact.js
 });
 
 $(document).ready(function () {
