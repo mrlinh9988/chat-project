@@ -2,6 +2,7 @@ function approveRequestContactReceived() {
   $(".user-approve-request-contact-received")
     .unbind("click")
     .on("click", function () {
+      console.log("alo");
       let targetId = $(this).data("uid");
 
       $.ajax({

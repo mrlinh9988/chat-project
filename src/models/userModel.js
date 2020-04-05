@@ -99,7 +99,7 @@ userSchema.statics = {
       _id: 1,
       username: 1,
       address: 1,
-      avatar: 1
+      avatar: 1,
     }); // chỉ lấy ra những trường muốn lấy)
   }
 };
