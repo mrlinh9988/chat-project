@@ -1,5 +1,4 @@
 import mongoose, { model, mongo } from "mongoose";
-import { contact } from "../services";
 
 let Schema = mongoose.Schema;
 
