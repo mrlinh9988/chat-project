@@ -9,7 +9,7 @@ let chatGroupSchema = new Schema({
   userId: String,
   members: [{ userId: String }],
   createdAt: { type: Number, default: Date.now() },
-  updatedAt: { type: Number, default: null },
+  updatedAt: { type: Number, default: Date.now() },
   deteledAt: { type: Number, default: null },
 });
 
@@ -26,7 +26,7 @@ chatGroupSchema.statics = {
     return this.find({
       members: { $elemMatch: { userId } },
     })
-      .sort({ createdAt: -1 })
+      .sort({ updatedAt: -1 })
       .limit(limit);
   },
 };

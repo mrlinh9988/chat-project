@@ -96,7 +96,7 @@ let updateInfo = async (req, res) => {
 };
 
 let updatePassword = async (req, res) => {
-  console.log(req.body);
+  // console.log(req.body);
 
   let errorArr = [];
   let validationErrors = validationResult(req);

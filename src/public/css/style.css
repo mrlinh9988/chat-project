@@ -752,7 +752,7 @@ label:focus,
   color: #999;
   background-color: #fff;
 }
-
+/* 
 .left .people .person .preview {
   font-size: 14px;
   display: inline-block;
@@ -761,7 +761,18 @@ label:focus,
   white-space: nowrap;
   text-overflow: ellipsis;
   color: #999;
+} */
+
+.left .people .person .preview {
+  font-size: 14px;
+  display: block;
+  overflow: hidden !important;
+  width: 70%;
+  white-space: nowrap;
+  text-overflow: ellipsis;
+  color: #999;
 }
+
 
 .left .people .person.active,
 .left .people .person:hover {

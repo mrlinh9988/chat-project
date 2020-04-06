@@ -81,7 +81,7 @@ contactSchema.statics = {
       {
         $and: [{ userId: contactId }, { contactId: userId }, { status: false }],
       },
-      { status: true, updatedAt: Date.now() }
+      { status: true, updatedAt: Date.now() } 
     ).exec();
   },
 
@@ -97,7 +97,7 @@ contactSchema.statics = {
         { status: true },
       ],
     })
-      .sort({ createdAt: -1 })
+      .sort({ updatedAt: -1 })
       .limit(limit)
       .exec();
   },
@@ -174,7 +174,7 @@ contactSchema.statics = {
         { status: true },
       ],
     })
-      .sort({ createdAt: -1 })
+      .sort({ updatedAt: -1 })
       .skip(skip)
       .limit(limit);
   },

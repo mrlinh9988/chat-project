@@ -23,14 +23,14 @@ let getAllConversationItems = async (currentUserId) => {
             contact.userId
           );
 
-          getUserContact.createdAt = contact.createdAt; // Vì là cùng kiểu mongoose document nên có thể gán được
+          getUserContact.updatedAt = contact.updatedAt; // Vì là cùng kiểu mongoose document nên có thể gán được
           return getUserContact;
         } else {
           let getUserContact = await UserModel.getNormalUserDataById(
             contact.contactId
           );
 
-          getUserContact.createdAt = contact.createdAt;
+          getUserContact.updatedAt = contact.updatedAt;
           return getUserContact;
         }
       });
@@ -47,9 +47,9 @@ let getAllConversationItems = async (currentUserId) => {
       // gộp chung tất cả user friend và group chat
       let allConversations = userConversations.concat(groupConversations);
       allConversations = _.sortBy(allConversations, (item) => {
-        // sắp xếp theo thứ tự từ lớn -> bé tức createdAt mới nhất -> cũ hơn,
+        // sắp xếp theo thứ tự từ lớn -> bé tức updatedAt mới nhất -> cũ hơn,
         // mặc đinh sortBy (+) là sắp xếp từ thấp đến cao, (-) để sắp xếp từ cao xuống thấp
-        return -item.createdAt;
+        return -item.updatedAt;
       });
 
       resolve({
