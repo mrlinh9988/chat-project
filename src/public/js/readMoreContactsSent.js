@@ -1,6 +1,5 @@
-$(document).ready(function() {
-  $("#link-read-more-contacts-sent").bind("click", function() {
-    console.log('alo');
+$(document).ready(function () {
+  $("#link-read-more-contacts-sent").bind("click", function () {
     let skipNumber = $("#request-contact-sent").find("li").length;
 
     $("#link-read-more-contacts-sent").css("display", "none");
@@ -9,7 +8,7 @@ $(document).ready(function() {
     setTimeout(() => {
       $.get(
         `/contact/read-more-contacts-sent?skipNumber=${skipNumber}`,
-        function(newContactUsers) {
+        function (newContactUsers) {
           if (!newContactUsers.length) {
             alertify.notify("Bạn không còn danh sách nào để xem", "error", 7);
 
@@ -19,8 +18,8 @@ $(document).ready(function() {
             return false;
           }
 
-          newContactUsers.forEach(function(user) {
-            console.log('user: ', user);
+          newContactUsers.forEach(function (user) {
+            
             $("#request-contact-sent").find(
               "ul"
             ).append(`<li class="_contactList" data-uid="${user._id}">
@@ -35,9 +34,13 @@ $(document).ready(function() {
                           </div>
                           <br>
                           <div class="user-address">
-                              <span>&nbsp ${(user.address !== null) ? user.address : ""}</span>
+                              <span>&nbsp ${
+                                user.address !== null ? user.address : ""
+                              }</span>
                           </div>
-                          <div class="user-remove-request-contact-sent action-danger display-important" data-uid="${user._id}">
+                          <div class="user-remove-request-contact-sent action-danger display-important" data-uid="${
+                            user._id
+                          }">
                               Hủy yêu cầu
                           </div>
                       </div>

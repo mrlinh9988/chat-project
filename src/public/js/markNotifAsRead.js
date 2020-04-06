@@ -3,10 +3,9 @@ function markNotificationsAsRead(targetUsers) {
     url: "/notification/mark-all-as-read",
     type: "put",
     data: { targetUsers },
-    success: function(result) {
+    success: function (result) {
       if (result) {
-        console.log('result: ', result);
-        targetUsers.forEach(function(uid) {
+        targetUsers.forEach(function (uid) {
           // popup notification
           $(".noti_content")
             .find(`div[data-uid = ${uid}]`)
@@ -20,18 +19,18 @@ function markNotificationsAsRead(targetUsers) {
 
         decreaseNumberNotification("noti_counter", targetUsers.length);
       }
-    }
+    },
   });
 }
 
-$(document).ready(function() {
+$(document).ready(function () {
   // link at popup notifications
-  $("#popup-mark-notif-as-read").bind("click", function() {
+  $("#popup-mark-notif-as-read").bind("click", function () {
     let targetUsers = [];
 
     $(".noti_content")
       .find("div.notif-readed-false")
-      .each(function(index, notification) {
+      .each(function (index, notification) {
         // each là thuộc Jquery, forEach là của JS thuần
         targetUsers.push($(notification).data("uid"));
       });
@@ -45,12 +44,12 @@ $(document).ready(function() {
   });
 
   // link at modal notifications
-  $("#modal-mark-notif-as-read").bind("click", function() {
+  $("#modal-mark-notif-as-read").bind("click", function () {
     let targetUsers = [];
 
     $("ul.list-notifications")
       .find("li>div.notif-readed-false")
-      .each(function(index, notification) {
+      .each(function (index, notification) {
         // each là thuộc Jquery, forEach là của JS thuần
         targetUsers.push($(notification).data("uid"));
       });

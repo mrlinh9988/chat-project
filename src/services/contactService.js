@@ -87,11 +87,7 @@ let removeRequestContactReceived = (currentUserId, contactId) => {
 
 let removeContact = (currentUserId, contactId) => {
   return new Promise(async (resolve, reject) => {
-    let removeReq = await ContactModel.removeContact(
-      currentUserId,
-      contactId
-    );
-    console.log("removeContact -> removeReq", removeReq)
+    let removeReq = await ContactModel.removeContact(currentUserId, contactId);
 
     if (removeReq.n === 0) {
       return reject(false);
@@ -108,8 +104,6 @@ let approveRequestContactReceived = (currentUserId, contactId) => {
       contactId
     );
 
-    console.log("approveRequestContactReceived -> approveReq", approveReq);
-
     if (approveReq.nModified === 0) {
       return reject(false);
     }
@@ -121,7 +115,7 @@ let approveRequestContactReceived = (currentUserId, contactId) => {
       receiverId: contactId,
       type: NotificationModel.type.APPROVE_CONTACT,
     };
-    await NotificationModel.model.createNew(nofiticationItem); 
+    await NotificationModel.model.createNew(nofiticationItem);
 
     resolve(true);
   });
@@ -320,5 +314,5 @@ module.exports = {
   readMoreContactsSent,
   readMoreContactsReceived,
   approveRequestContactReceived,
-  removeContact
+  removeContact,
 };

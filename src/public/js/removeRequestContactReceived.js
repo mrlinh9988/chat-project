@@ -1,18 +1,15 @@
 function removeRequestContactReceived() {
   $(".user-remove-request-contact-received")
     .unbind("click")
-    .on("click", function() {
+    .on("click", function () {
       let targetId = $(this).data("uid");
-
-      console.log("alo");
 
       // chỉ sử dụng được $.get và $.post không có delete và put
       $.ajax({
         url: "/contact/remove-request-contact-received",
         type: "delete",
         data: { uid: targetId },
-        success: function(data) {
-          console.log(data);
+        success: function (data) {
           if (data.success) {
             /*
               $(".noti_content")
@@ -37,21 +34,21 @@ function removeRequestContactReceived() {
               .remove();
 
             socket.emit("remove-request-contact-received", {
-              contactId: targetId
+              contactId: targetId,
             });
           }
-        }
+        },
       });
     });
 }
 
-socket.on("respone-remove-request-contact-received", function(user) {
+socket.on("respone-remove-request-contact-received", function (user) {
   $("#find-user")
     .find(
       `div.user-remove-request-contact-sent[data-uid = ${user.id}]` // Tìm thẻ div.user-add-new-contact để ẩn đi
     )
     .hide();
-    
+
   $("#find-user")
     .find(
       `div.user-add-new-contact[data-uid = ${user.id}]` // Tìm thẻ div.user-add-new-contact để ẩn đi
@@ -59,16 +56,13 @@ socket.on("respone-remove-request-contact-received", function(user) {
     .css("display", "inline-block");
 
   // Xóa ở modal tab đang chờ xác nhận
-  $("#request-contact-sent")
-    .find(`li[data-uid = ${user.id}]`)
-    .remove();
+  $("#request-contact-sent").find(`li[data-uid = ${user.id}]`).remove();
 
   decreaseNumberNotityContact("count-request-contact-sent"); // Yêu cầu kết bạn
 
   decreaseNumberNotification("noti_contact_counter", 1); // js/calculateNotification.js
-  
 });
 
-$(document).ready(function() {
+$(document).ready(function () {
   removeRequestContactReceived(); // js/removeRequestContactsent
 });

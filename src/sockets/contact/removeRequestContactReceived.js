@@ -1,23 +1,20 @@
 import {
   pushSocketIdToArray,
   emitNotifyToArray,
-  removeSocketIdFromArray
+  removeSocketIdFromArray,
 } from "../../helpers/socketHelper";
 
 /**
  * @param io from socket.io
  */
-let removeRequestContactSent = io => {
+let removeRequestContactSent = (io) => {
   let clients = {};
-  io.on("connection", socket => {
+  io.on("connection", (socket) => {
     clients = pushSocketIdToArray(clients, socket.request.user._id, socket.id);
 
-    socket.on("remove-request-contact-received", data => {
-
-      console.log('alo');
-
+    socket.on("remove-request-contact-received", (data) => {
       let currentUser = {
-        id: socket.request.user._id
+        id: socket.request.user._id,
       };
 
       // Nếu nhận được contactId từ client gửi lên
@@ -33,7 +30,7 @@ let removeRequestContactSent = io => {
       }
     });
 
-    socket.on("disconnect", () => { 
+    socket.on("disconnect", () => {
       clients = removeSocketIdFromArray(
         clients,
         socket.request.user._id,
@@ -41,7 +38,7 @@ let removeRequestContactSent = io => {
       );
     });
 
-    // console.log(clients);  
+    // console.log(clients);
   });
 };
 

@@ -1,6 +1,5 @@
-$(document).ready(function() {
-  $("#link-read-more-contacts-received").bind("click", function() {
-    console.log("alo");
+$(document).ready(function () {
+  $("#link-read-more-contacts-received").bind("click", function () {
     let skipNumber = $("#request-contact-received").find("li").length;
 
     $("#link-read-more-contacts-received").css("display", "none");
@@ -9,7 +8,7 @@ $(document).ready(function() {
     setTimeout(() => {
       $.get(
         `/contact/read-more-contacts-received?skipNumber=${skipNumber}`,
-        function(newContactUsers) {
+        function (newContactUsers) {
           if (!newContactUsers.length) {
             alertify.notify("Bạn không còn danh sách nào để xem", "error", 7);
 
@@ -22,8 +21,7 @@ $(document).ready(function() {
             return false;
           }
 
-          newContactUsers.forEach(function(user) {
-            console.log("user: ", user);
+          newContactUsers.forEach(function (user) {
             $("#request-contact-received").find("ul").append(`
               <li class="_contactList" data-uid="${user._id}">
                 <div class="contactPanel">

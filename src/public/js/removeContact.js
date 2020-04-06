@@ -18,8 +18,6 @@ function removeContact() {
         confirmButtonText: "Đồng ý",
         cancelButtonText: "Hủy bỏ",
       }).then((result) => {
-        console.log("removeContact -> result", result);
-
         // Nếu ấn nút hủy bỏ
         if (!result.value) {
           return false;
