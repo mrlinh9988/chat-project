@@ -2,8 +2,10 @@ import ContactModel from "../models/contactModel";
 import UserModel from "../models/userModel";
 import ChatGroupModel from "../models/chatGroupModel";
 import _ from "lodash";
+import MessageModel from "../models/messageModel";
 
-let LIMIT_CONVERSATION_TAKEN = 15;
+let LIMIT_CONVERSATIONS_TAKEN = 15;
+let LIMIT_MESSAGES_TAKEN = 30;
 
 /**
  * get all conversations
@@ -14,7 +16,7 @@ let getAllConversationItems = async (currentUserId) => {
     try {
       let contacts = await ContactModel.getContacts(
         currentUserId,
-        LIMIT_CONVERSATION_TAKEN
+        LIMIT_CONVERSATIONS_TAKEN
       );
 
       let userConversationsPromise = contacts.map(async (contact) => {
@@ -41,21 +43,53 @@ let getAllConversationItems = async (currentUserId) => {
       // Lấy ra tất cả các cuộc trò chuyện với điều kiện có bao gồm currentUserId
       let groupConversations = await ChatGroupModel.getChatGroups(
         currentUserId,
-        LIMIT_CONVERSATION_TAKEN
+        LIMIT_CONVERSATIONS_TAKEN
       );
 
-      // gộp chung tất cả user friend và group chat
+      // lấy ra tất cả các cuộc trò chuyện bao gồm user friend và group chat
       let allConversations = userConversations.concat(groupConversations);
+
       allConversations = _.sortBy(allConversations, (item) => {
         // sắp xếp theo thứ tự từ lớn -> bé tức updatedAt mới nhất -> cũ hơn,
         // mặc đinh sortBy (+) là sắp xếp từ thấp đến cao, (-) để sắp xếp từ cao xuống thấp
         return -item.updatedAt;
       });
 
+      // get messages to render to screen chat
+      let allConversationsWithMessagePromise = allConversations.map(
+        async (conversation) => {
+          let getMessages = await MessageModel.model.getMessages(
+            currentUserId,
+            conversation._id, // vì người dùng có thể là 1 người dùng khác hoặc cũng có thể là 1 group nên sử dụng conversation._id,
+            LIMIT_MESSAGES_TAKEN
+          );
+
+          conversation = conversation.toObject(); // conversation là mongoose document khác với object thuần JS
+          conversation.messages = getMessages; // Thêm thuộc tính messages
+          return conversation;
+        }
+      );
+
+      let allConversationsWithMessage = await Promise.all(
+        allConversationsWithMessagePromise
+      );
+
+      // allConversationsWithMessage vì trước đó là promise.all nên có thể thứ tự có thể thay đổi vì kết quả trả về bất đồng bộ
+      // nên cần sort lại
+      allConversationsWithMessage = _.sortBy(
+        allConversationsWithMessage,
+        (item) => {
+          return -item.updatedAt;
+        }
+      );
+
+      console.log("getAllConversationItems -> allConversationsWithMessage", allConversationsWithMessage[2].messages)
+
       resolve({
         userConversations,
         groupConversations,
         allConversations,
+        allConversationsWithMessage,
       });
     } catch (error) {
       console.log("error", error);

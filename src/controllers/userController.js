@@ -50,7 +50,9 @@ let updateAvatar = (req, res) => {
       // Remove old avatar from /src/public/images/users/
       // Dùng userUpdate.avatar vì dù update dữ liệu mới rồi nhưng hàm findByIdAnUpdate của
       // Mongoose vẫn trả về giá trị trước khi được update
-      await fsExtra.remove(`${app.avatar_directory}/${userUpdate.avatar}`);
+
+      // Không xóa avatar cũ của người dùng vì trong bảng message cần sử dụng
+      // await fsExtra.remove(`${app.avatar_directory}/${userUpdate.avatar}`); 
 
       let result = {
         message: transSuccess.user_info_updated,
